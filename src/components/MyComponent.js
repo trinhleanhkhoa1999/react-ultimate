@@ -6,26 +6,27 @@ export class MyComponent extends React.Component {
     age: 24,
     address: "Tp.Hcm",
   };
-  handleClick = (event) => {
-    console.log("handleClick");
-    console.log("My name is ", this.state.name);
-
+  handleOnChangeInput = (event) => {
     this.setState({
-      name: "be bi",
-      age: Math.floor(Math.random() * 10) + 1,
+      name: event.target.value,
     });
+    console.log("onChangeInput");
+  };
+  handleOnSubmit = (event) => {
+    event.preventDefault();
+    console.log(this.state);
   };
   render() {
     return (
       <div>
         My name is {this.state.name} and my age {this.state.age}
-        <button
-          onClick={(event) => {
-            this.handleClick(event);
-          }}
-        >
-          Click me!
-        </button>
+        <form onSubmit={(event) => this.handleOnSubmit(event)}>
+          <input
+            type="text"
+            onChange={(event) => this.handleOnChangeInput(event)}
+          />
+          <button>Submit</button>
+        </form>
       </div>
     );
   }
