@@ -15,12 +15,21 @@ export class MyComponent extends React.Component {
       listUsers: [user, ...this.state.listUsers],
     });
   };
+  handleDeleteUser = (userId) => {
+    console.log("Delete user");
+    this.setState({
+      listUsers: [...this.state.listUsers.filter((item) => item.id !== userId)],
+    });
+  };
   render() {
     return (
       <div>
         <AddUserInfor handleAddNewUser={this.handleAddNewUser} />
         <br />
-        <DisplayInfor listUsers={this.state.listUsers} />
+        <DisplayInfor
+          listUsers={this.state.listUsers}
+          handleDeleteUser={this.handleDeleteUser}
+        />
       </div>
     );
   }

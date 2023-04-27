@@ -11,6 +11,7 @@ export default class DisplayInfor extends Component {
       isShowHide: !this.state.isShowHide,
     });
   };
+
   render() {
     console.log("props form MyComponent", this.props);
     //Destructoring Array/Object
@@ -30,19 +31,29 @@ export default class DisplayInfor extends Component {
           </span>
         </div>
         {this.state.isShowHide && (
-          <div>
+          <>
             {listUsers.map((item, idx) => {
               return (
                 <div
                   key={item.id}
                   className={+item.age <= 18 ? "green" : "red"}
                 >
-                  My name is {item.name} and my age {item.age}
+                  <div> My name is {item.name}</div>
+                  <div> My age {item.age}</div>
+                  <div>
+                    <button
+                      onClick={() => {
+                        this.props.handleDeleteUser(item.id);
+                      }}
+                    >
+                      Delete!
+                    </button>
+                  </div>
                   <hr />
                 </div>
               );
             })}
-          </div>
+          </>
         )}
       </div>
     );
