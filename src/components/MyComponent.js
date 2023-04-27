@@ -1,14 +1,26 @@
 import React from "react";
-import UserInfor from "./UserInfor";
+import AddUserInfor from "./AddUserInfor";
 import DisplayInfor from "./DisplayInfor";
 
 export class MyComponent extends React.Component {
+  state = {
+    listUsers: [
+      { id: 1, name: "John", age: 18 },
+      { id: 2, name: "Ko", age: 25 },
+      { id: 3, name: "Decate", age: 17 },
+    ],
+  };
+  handleAddNewUser = (user) => {
+    this.setState({
+      listUsers: [user, ...this.state.listUsers],
+    });
+  };
   render() {
     return (
       <div>
-        <UserInfor />
+        <AddUserInfor handleAddNewUser={this.handleAddNewUser} />
         <br />
-        <DisplayInfor name="Khoa dep trai" age="24" />
+        <DisplayInfor listUsers={this.state.listUsers} />
       </div>
     );
   }

@@ -1,4 +1,13 @@
+.green{
+  color: white;
+  background-color: green;
+}
+.red{
+  color: white;
+  background-color: red;
+}
 body {
+  padding: 20px;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
