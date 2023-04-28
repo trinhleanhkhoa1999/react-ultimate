@@ -2,18 +2,32 @@ import React, { Component } from "react";
 import "./DisplayInfor.scss";
 
 export default class DisplayInfor extends Component {
-  state = {
-    isShowHide: true,
-  };
+  constructor(props) {
+    console.log(">>> call constructor: 1");
+    super(props);
+    this.state = {
+      isShowHide: true,
+    };
+  }
+
   //set true or false
   handleShowHide = () => {
     this.setState({
       isShowHide: !this.state.isShowHide,
     });
   };
+  componentDidMount() {
+    console.log(">>> call me componentDidMount");
+    setTimeout(() => {
+      document.title = "Test changed title";
+    }, 3000);
+  }
+  componentDidUpdate() {
+    console.log(">>> call me componentDidUpdate");
+  }
 
   render() {
-    console.log("props form MyComponent", this.props);
+    console.log(">>> call render");
     //Destructoring Array/Object
     const { listUsers } = this.props;
     //listUsers = this.props.listUsers
