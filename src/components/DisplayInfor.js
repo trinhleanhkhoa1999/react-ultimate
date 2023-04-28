@@ -1,22 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./DisplayInfor.scss";
 
 const DisplayInfor = (props) => {
   //Destructoring Array/Object
   const { listUsers } = props; //object
 
-  // this.state({
-  //   isShowHide:true
-  // })
   const [isShowHide, setIsShowHide] = useState(true);
-  console.log("isShowHide: ", isShowHide);
+
   const handleShowHide = () => {
-    // this.setState({
-    //   isShowHide:!true
-    // })
     setIsShowHide(!isShowHide);
   };
+  useEffect(() => {
+    console.log(">>> check render using effect");
+  }, []); //useEffect có [] render 1 lần duy nhất
 
+  useEffect(() => {
+    if (listUsers.length === 0) {
+      alert("you are deleted all users");
+    }
+  }, [listUsers]); //useEffect truyen state [listUsers] re render useEffect sau moi lan render
+
+  console.log(">>> check render");
   return (
     <div className="display-infor-container">
       <div>

@@ -45,7 +45,6 @@ const MyComponent = (props) => {
     setListUsers([user, ...listUsers]);
   };
   const handleDeleteUser = (userId) => {
-    console.log("Delete user");
     setListUsers([...listUsers.filter((item) => item.id !== userId)]);
   };
   return (
