@@ -1,5 +1,6 @@
 import React from "react";
 import ModalCreateUser from "./ModalCreateUser";
+import "./ManageUser.scss";
 
 function ManageUser(props) {
   return (
