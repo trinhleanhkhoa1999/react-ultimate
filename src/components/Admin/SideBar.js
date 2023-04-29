@@ -9,13 +9,10 @@ import {
   SidebarContent,
 } from "react-pro-sidebar";
 
-import {
-  FaTachometerAlt,
-  FaGem,
-  FaGithub,
-  FaRegLaughWink,
-} from "react-icons/fa";
+import { FaGem, FaGithub, FaRegLaughWink, FaReact } from "react-icons/fa";
+import { MdDashboard } from "react-icons/md";
 import sidebarBg from "../../assets/img/bg2.jpg";
+import "./SideBar.scss";
 
 const SideBar = (props) => {
   const { collapsed, toggled, handleToggleSidebar } = props;
@@ -41,28 +38,24 @@ const SideBar = (props) => {
               whiteSpace: "nowrap",
             }}
           >
+            <FaReact
+              size={"3em"}
+              color={"00bfff"}
+              style={{ margin: "0 8px" }}
+            />
             Khoa Trịnh
           </div>
         </SidebarHeader>
 
         <SidebarContent>
           <Menu iconShape="circle">
-            <MenuItem
-              icon={<FaTachometerAlt />}
-              suffix={<span className="badge red">New</span>}
-            >
-              dashboard
-            </MenuItem>
-            <MenuItem icon={<FaGem />}> components </MenuItem>
+            <MenuItem icon={<MdDashboard />}>Dashboard</MenuItem>
           </Menu>
           <Menu iconShape="circle">
-            <SubMenu
-              suffix={<span className="badge yellow">3</span>}
-              icon={<FaRegLaughWink />}
-            >
-              <MenuItem> 1</MenuItem>
-              <MenuItem> 2</MenuItem>
-              <MenuItem> 3</MenuItem>
+            <SubMenu icon={<FaGem />} title="Features">
+              <MenuItem> Quản lý Users</MenuItem>
+              <MenuItem> Quản lý bài Quiz</MenuItem>
+              <MenuItem> Quản lý câu hỏi</MenuItem>
             </SubMenu>
           </Menu>
         </SidebarContent>
