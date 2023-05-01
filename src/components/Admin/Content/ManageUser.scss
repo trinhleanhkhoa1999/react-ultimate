@@ -1,7 +1,13 @@
 .manage-user-container{
-    .title{}
+    padding: 10px;
+    .title{ 
+        font-weight: 600;
+        font-size: 20px;
+    }
     .users-content{
         button{
+            margin: 15px 0;
+            padding: 10px;
             display: flex;
             align-items: center;
             gap:0 5px

@@ -2,13 +2,21 @@ import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { FcPlus } from "react-icons/fc";
-import sidebarBg from "../../../assets/img/bg2.jpg";
+import axios from "axios";
 
-function ModalCreateUser() {
-  const [show, setShow] = useState(false);
+const ModalCreateUser = (props) => {
+  // console.log(">>> check data", props);
+  const { show, setShow } = props;
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClose = () => {
+    setShow(false);
+    setEmail("");
+    setPassword("");
+    setUsername("");
+    setRole("");
+    setImage("");
+    setPreviewImage("");
+  };
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,14 +31,24 @@ function ModalCreateUser() {
       setImage(event.target.files[0]);
     }
   };
+  // use axios FormData post data len database
+  const handleSubmitData = async () => {
+    const data = new FormData();
+    data.append("email", email);
+    data.append("password", password);
+    data.append("username", username);
+    data.append("role", role);
+    data.append("userImage", image);
+
+    let res = await axios.post(
+      "http://localhost:8081/api/v1/participant",
+      data
+    );
+    console.log(">>> check data res", res);
+  };
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
-        <FcPlus />
-        Add new user
-      </Button>
-
       <Modal
         show={show}
         onHide={handleClose}
@@ -109,13 +127,13 @@ function ModalCreateUser() {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleClose}>
+          <Button variant="primary" onClick={() => handleSubmitData()}>
             Save
           </Button>
         </Modal.Footer>
       </Modal>
     </>
   );
-}
+};
 
 export default ModalCreateUser;
