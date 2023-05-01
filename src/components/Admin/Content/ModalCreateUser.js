@@ -3,6 +3,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { FcPlus } from "react-icons/fc";
 import { toast } from "react-toastify";
+import { postCreateNewUser } from "../../../services/apiService";
 
 import axios from "axios";
 
@@ -46,33 +47,25 @@ const ModalCreateUser = (props) => {
     // validate email
     const isValidateEmail = validateEmail(email);
     if (!isValidateEmail) {
-      toast.error("validation failed email");
+      toast.error("invalidation failed email");
       return;
     }
     // validate password
     if (!password) {
-      toast.error("validation failed password");
+      toast.error("invalidation failed password");
       return;
     }
-    // Submit Data
-    const data = new FormData();
-    data.append("email", email);
-    data.append("password", password);
-    data.append("username", username);
-    data.append("role", role);
-    data.append("userImage", image);
+    // postCreateNewUser(email, password, username, role, image) call api from file services
+    // => => Submit Data postCreateNewUser
+    let data = await postCreateNewUser(email, password, username, role, image);
 
-    let res = await axios.post(
-      "http://localhost:8081/api/v1/participant",
-      data
-    );
-    console.log(">>> check data res", res.data);
-    if (res.data.EC === 0) {
-      toast.success(res.data.EM);
+    console.log(">>> check component res", data);
+    if (data.EC === 0) {
+      toast.success(data.EM);
       handleClose();
     }
-    if (res.data.EC !== 0) {
-      toast.error(res.data.EM);
+    if (data.EC !== 0) {
+      toast.error(data.EM);
     }
   };
 
