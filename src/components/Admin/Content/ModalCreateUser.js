@@ -2,6 +2,8 @@ import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { FcPlus } from "react-icons/fc";
+import { toast } from "react-toastify";
+
 import axios from "axios";
 
 const ModalCreateUser = (props) => {
@@ -31,8 +33,28 @@ const ModalCreateUser = (props) => {
       setImage(event.target.files[0]);
     }
   };
+  // validate email
+  const validateEmail = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
   // use axios FormData post data len database
   const handleSubmitData = async () => {
+    // validate email
+    const isValidateEmail = validateEmail(email);
+    if (!isValidateEmail) {
+      toast.error("validation failed email");
+      return;
+    }
+    // validate password
+    if (!password) {
+      toast.error("validation failed password");
+      return;
+    }
+    // Submit Data
     const data = new FormData();
     data.append("email", email);
     data.append("password", password);
@@ -44,7 +66,14 @@ const ModalCreateUser = (props) => {
       "http://localhost:8081/api/v1/participant",
       data
     );
-    console.log(">>> check data res", res);
+    console.log(">>> check data res", res.data);
+    if (res.data.EC === 0) {
+      toast.success(res.data.EM);
+      handleClose();
+    }
+    if (res.data.EC !== 0) {
+      toast.error(res.data.EM);
+    }
   };
 
   return (
@@ -118,8 +147,6 @@ const ModalCreateUser = (props) => {
               ) : (
                 <span>Preview image</span>
               )}
-              {/* <span>Preview image</span>
-              <img src={previewImage} /> */}
             </div>
           </form>
         </Modal.Body>
@@ -127,6 +154,7 @@ const ModalCreateUser = (props) => {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
+          {/*  use axios FormData post data len database */}
           <Button variant="primary" onClick={() => handleSubmitData()}>
             Save
           </Button>
