@@ -9,7 +9,6 @@ import _ from "lodash";
 const ModalUpdateUser = (props) => {
   // console.log(">>> check data", props);
   const { show, setShow, dataUpdate } = props;
-  console.log("check dataUpdate", dataUpdate);
 
   const handleClose = () => {
     setShow(false);

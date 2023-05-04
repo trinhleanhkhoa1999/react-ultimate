@@ -1,13 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { FcPlus } from "react-icons/fc";
-import { toast } from "react-toastify";
-import { postCreateNewUser } from "../../../services/apiService";
+import _ from "lodash";
 
-const ModalCreateUser = (props) => {
+const ModalViewUser = (props) => {
   // console.log(">>> check data", props);
-  const { show, setShow } = props;
+  const { show, setShow, dataView } = props;
 
   const handleClose = () => {
     setShow(false);
@@ -17,6 +16,7 @@ const ModalCreateUser = (props) => {
     setRole("");
     setImage("");
     setPreviewImage("");
+    props.resetUpdateData();
   };
 
   const [email, setEmail] = useState("");
@@ -26,44 +26,24 @@ const ModalCreateUser = (props) => {
   const [image, setImage] = useState("");
   const [previewImage, setPreviewImage] = useState("");
 
+  useEffect(() => {
+    if (!_.isEmpty(dataView)) {
+      //update state
+      setEmail(dataView.email);
+      setUsername(dataView.username);
+      setRole(dataView.role);
+      setImage("");
+
+      if (dataView.image) {
+        setPreviewImage(`data:image/jpeg;base64,${dataView.image}`);
+      }
+    }
+  }, [dataView]);
+
   const handlePreviewImage = (event) => {
     if (event.target && event.target.files && event.target.files[0]) {
       setPreviewImage(URL.createObjectURL(event.target.files[0]));
       setImage(event.target.files[0]);
-    }
-  };
-  // validate email
-  const validateEmail = (email) => {
-    return String(email)
-      .toLowerCase()
-      .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      );
-  };
-  // use axios FormData post data len database
-  const handleSubmitData = async () => {
-    // validate email
-    const isValidateEmail = validateEmail(email);
-    if (!isValidateEmail) {
-      toast.error("invalidation failed email");
-      return;
-    }
-    // validate password
-    if (!password) {
-      toast.error("invalidation failed password");
-      return;
-    }
-    // postCreateNewUser(email, password, username, role, image) call api from file services
-    // => => Submit Data postCreateNewUser
-    let data = await postCreateNewUser(email, password, username, role, image);
-
-    if (data.EC === 0) {
-      toast.success(data.EM);
-      handleClose();
-      await props.fetchListUsers();
-    }
-    if (data.EC !== 0) {
-      toast.error(data.EM);
     }
   };
 
@@ -77,7 +57,7 @@ const ModalCreateUser = (props) => {
         size="xl"
       >
         <Modal.Header closeButton>
-          <Modal.Title>Add new user</Modal.Title>
+          <Modal.Title>View a user</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form className="row g-3">
@@ -88,6 +68,7 @@ const ModalCreateUser = (props) => {
                 className="form-control"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
+                disabled
               />
             </div>
             <div className="col-md-6">
@@ -97,6 +78,7 @@ const ModalCreateUser = (props) => {
                 className="form-control"
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
+                disabled
               />
             </div>
 
@@ -107,6 +89,7 @@ const ModalCreateUser = (props) => {
                 className="form-control"
                 value={username}
                 onChange={(event) => setUsername(event.target.value)}
+                disabled
               />
             </div>
             <div className="col-md-4">
@@ -115,6 +98,7 @@ const ModalCreateUser = (props) => {
                 className="form-select"
                 value={role}
                 onChange={(event) => setRole(event.target.value)}
+                disabled
               >
                 <option value="USER">USER</option>
                 <option value="ADMIN">ADMIN</option>
@@ -130,6 +114,7 @@ const ModalCreateUser = (props) => {
                 hidden
                 id="labelUpload"
                 onChange={(event) => handlePreviewImage(event)}
+                disabled
               />
             </div>
             <div className="col-md-12 img-preview">
@@ -146,13 +131,10 @@ const ModalCreateUser = (props) => {
             Close
           </Button>
           {/*  use axios FormData post data len database */}
-          <Button variant="primary" onClick={() => handleSubmitData()}>
-            Save
-          </Button>
         </Modal.Footer>
       </Modal>
     </>
   );
 };
 
-export default ModalCreateUser;
+export default ModalViewUser;
