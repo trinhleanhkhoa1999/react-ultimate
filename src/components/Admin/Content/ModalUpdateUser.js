@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { FcPlus } from "react-icons/fc";
 import { toast } from "react-toastify";
-import { postCreateNewUser } from "../../../services/apiService";
+import { putUpdateUser } from "../../../services/apiService";
 import _ from "lodash";
 
 const ModalUpdateUser = (props) => {
@@ -19,6 +19,7 @@ const ModalUpdateUser = (props) => {
     setRole("");
     setImage("");
     setPreviewImage("");
+    props.resetUpdateData();
   };
 
   const [email, setEmail] = useState("");
@@ -48,30 +49,12 @@ const ModalUpdateUser = (props) => {
       setImage(event.target.files[0]);
     }
   };
-  // validate email
-  const validateEmail = (email) => {
-    return String(email)
-      .toLowerCase()
-      .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      );
-  };
+
   // use axios FormData post data len database
   const handleSubmitData = async () => {
-    // validate email
-    const isValidateEmail = validateEmail(email);
-    if (!isValidateEmail) {
-      toast.error("invalidation failed email");
-      return;
-    }
-    // validate password
-    if (!password) {
-      toast.error("invalidation failed password");
-      return;
-    }
-    // postCreateNewUser(email, password, username, role, image) call api from file services
-    // => => Submit Data postCreateNewUser
-    let data = await postCreateNewUser(email, password, username, role, image);
+    // putUpdateUser(dataUpdate.id, username, role, image) call api from file services
+    // => => Submit Data putUpdateUser
+    let data = await putUpdateUser(dataUpdate.id, username, role, image);
 
     console.log(">>> check component res", data);
     if (data.EC === 0) {
