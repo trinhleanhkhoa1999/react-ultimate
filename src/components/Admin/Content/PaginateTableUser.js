@@ -3,10 +3,11 @@ import ReactPaginate from "react-paginate";
 //use Paginate table for user list
 const PaginateTableUser = (props) => {
   // listUsers = props.listUsers
-  const { listUsers, pageCount } = props;
+  const { listUsers, pageCount, currentPage } = props;
 
   const handlePageClick = (event) => {
     console.log(`User requested page number ${event.selected}`);
+    props.setCurrentPage(+event.selected + 1);
     props.fetchListUsersWithPaginate(+event.selected + 1);
   };
   return (
@@ -81,6 +82,7 @@ const PaginateTableUser = (props) => {
           containerClassName="pagination"
           activeClassName="active"
           renderOnZeroPageCount={null}
+          forcePage={currentPage - 1}
         />
       </div>
     </>
