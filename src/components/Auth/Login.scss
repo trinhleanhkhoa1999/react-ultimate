@@ -1,0 +1,30 @@
+.login-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    padding: 20px;
+
+    .login-header{
+        display: flex;
+        justify-content: end;
+    }
+    .login-title{
+       
+    }
+    .login-welcome{
+        font-weight: 300;
+        font-size: 20px;
+        color: #ccc;
+    }
+    .login-content-form{
+        span{
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+        }
+        button{
+            width: 100%;
+        }
+    }
+}
