@@ -10,13 +10,30 @@ const Login = () => {
 
   const navigate = useNavigate();
 
+  // validate email
+  const validateEmail = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
   const handleLogin = async (event) => {
-    event.preventDefault();
-    //validate
+    // validate email
+    const isValidateEmail = validateEmail(email);
+    if (!isValidateEmail) {
+      toast.error("invalidation failed email");
+      return;
+    }
+    // validate password
+    if (!password) {
+      toast.error("invalidation failed password");
+      return;
+    }
 
     //submit login apis
+    event.preventDefault();
     let data = await postLogin(email, password);
-    console.log(">>>check data:", data);
     if (data.EC === 0) {
       toast.success(data.EM);
       navigate("/");
@@ -24,6 +41,9 @@ const Login = () => {
     if (data.EC !== 0) {
       toast.error(data.EM);
     }
+  };
+  const handleSignup = () => {
+    navigate("/signup");
   };
 
   const handleBackHomepage = () => {
@@ -33,7 +53,9 @@ const Login = () => {
     <div className="login-container">
       <div className="login-header">
         <span>Don't have an account yet?</span>
-        <button>Sign up</button>
+        <button className="btn btn-primary" onClick={() => handleSignup()}>
+          Sign up
+        </button>
       </div>
       <div className="login-title mx-auto">
         <h1>Typeform</h1>

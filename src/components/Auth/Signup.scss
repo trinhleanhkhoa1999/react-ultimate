@@ -1,0 +1,27 @@
+.signup-container{
+    padding: 20px;
+   
+    
+    .signup-header{
+        display: flex;
+        justify-content: flex-end;
+    }
+    .signup-title{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .signup-welcome{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 300;
+        font-size: 20px;
+        color: #ccc;
+    }
+    .signup-content-form{
+        button{
+            width: 100%;
+        }
+    }
+}
