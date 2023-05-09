@@ -1,17 +1,40 @@
 import React from "react";
 import "./Login.scss";
 import { useState } from "react";
-
-function Login() {
+import { useNavigate } from "react-router-dom";
+import { postLogin } from "../../services/apiService";
+import { toast } from "react-toastify";
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
-    alert("ok");
+  const navigate = useNavigate();
+
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    //validate
+
+    //submit login apis
+    let data = await postLogin(email, password);
+    console.log(">>>check data:", data);
+    if (data.EC === 0) {
+      toast.success(data.EM);
+      navigate("/");
+    }
+    if (data.EC !== 0) {
+      toast.error(data.EM);
+    }
+  };
+
+  const handleBackHomepage = () => {
+    navigate("/");
   };
   return (
     <div className="login-container">
-      <div className="login-header">Don't have an account yet?</div>
+      <div className="login-header">
+        <span>Don't have an account yet?</span>
+        <button>Sign up</button>
+      </div>
       <div className="login-title mx-auto">
         <h1>Typeform</h1>
       </div>
@@ -41,15 +64,19 @@ function Login() {
             <button
               type="submit"
               className="btn btn-primary"
-              onClick={() => handleLogin()}
+              onClick={(event) => handleLogin(event)}
             >
               Log in
             </button>
+            <span onClick={() => handleBackHomepage()}>
+              {" "}
+              &lt;&lt; Go to Homepage{" "}
+            </span>
           </div>
         </form>
       </div>
     </div>
   );
-}
+};
 
 export default Login;
