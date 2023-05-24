@@ -6,9 +6,11 @@ import { postLogin } from "../../services/apiService";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { doLogin } from "../../redux/action/userAction";
+import { ImSpinner10 } from "react-icons/im";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -35,11 +37,13 @@ const Login = () => {
     }
 
     //submit login apis
+    setIsLoading(true);
     event.preventDefault();
     let data = await postLogin(email, password);
     if (data.EC === 0) {
       dispatch(doLogin(data));
       toast.success(data.EM);
+      setIsLoading(false);
       navigate("/");
     }
     if (data.EC !== 0) {
@@ -89,14 +93,16 @@ const Login = () => {
           <div className="col-md-3 mx-auto">
             <button
               type="submit"
-              className="btn btn-primary"
               onClick={(event) => handleLogin(event)}
+              disabled={isLoading}
             >
-              Log in
+              <span className="icon-spinner">
+                {isLoading === true && <ImSpinner10 className="loader-icon" />}
+                Login
+              </span>
             </button>
             <span onClick={() => handleBackHomepage()}>
-              {" "}
-              &lt;&lt; Go to Homepage{" "}
+              &lt;&lt; Go to Homepage
             </span>
           </div>
         </form>

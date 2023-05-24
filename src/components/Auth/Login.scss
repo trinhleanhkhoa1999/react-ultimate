@@ -2,7 +2,6 @@
     display: flex;
     flex-direction: column;
     padding: 20px;
-
     .login-header{
         display: flex;
         justify-content: end;
@@ -23,6 +22,36 @@
         }
         button{
             width: 100%;
+            background: black;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            color: white;
+            &:disabled{
+                background: #dddddd;
+                color: #afafaf;
+                cursor: no-drop;
+            }
         }
+        .icon-spinner{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            .loader-icon{
+            font-size: 14px;
+            color: rgb(37, 241, 248);
+            animation: spin 1s infinite linear;
+        }
+
+            @keyframes spin {
+                from {
+                    transform: scale(1) rotate(0deg);
+                }
+                to {
+                    transform: scale(1) rotate(360deg);
+                }
+            }
+        }
+        
     }
 }
