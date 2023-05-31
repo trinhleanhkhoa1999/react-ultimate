@@ -46,10 +46,13 @@ const Header = () => {
                 </button>
               </>
             ) : (
-              <NavDropdown title="Settings" id="basic-nav-dropdown">
-                <NavDropdown.Item>Log out</NavDropdown.Item>
-                <NavDropdown.Item>Profile</NavDropdown.Item>
-              </NavDropdown>
+              <>
+                <h3>{account.username}</h3>
+                <NavDropdown title="Settings" id="basic-nav-dropdown">
+                  <NavDropdown.Item>Log out</NavDropdown.Item>
+                  <NavDropdown.Item>Profile</NavDropdown.Item>
+                </NavDropdown>
+              </>
             )}
           </Nav>
         </Navbar.Collapse>
