@@ -10,9 +10,15 @@
             font-weight: 600;
         }
         .q-content{
-            .q-question{
+            .question{
                 font-size: 20px;
                 font-weight: 600;
+            }
+            .q-image{
+                img{
+                    width: 300px;
+                    height: 200px;
+                }
             }
         }
         .footer{

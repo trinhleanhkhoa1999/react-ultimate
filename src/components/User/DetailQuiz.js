@@ -3,10 +3,24 @@ import { useParams, useLocation } from "react-router-dom";
 import { getDataQuiz } from "../../services/apiService";
 import _ from "lodash";
 import "./DetailQuiz.scss";
+import Question from "./Question";
+import { useState } from "react";
 const DetailQuiz = (props) => {
   const params = useParams();
-  const quizId = params.id;
   const location = useLocation();
+  const quizId = params.id;
+
+  const [dataQuiz, setDataQuiz] = useState([]);
+  const [index, setIndex] = useState(0);
+  const handlePrev = () => {
+    if (index - 1 < 0) return;
+    setIndex(index - 1);
+  };
+  const handleNext = () => {
+    if (dataQuiz && dataQuiz.length > index + 1) {
+      setIndex(index + 1);
+    }
+  };
   useEffect(() => {
     fetchQuestions();
   }, [quizId]);
@@ -36,8 +50,10 @@ const DetailQuiz = (props) => {
         })
         .value();
       console.log("data", data);
+      setDataQuiz(data);
     }
   };
+  console.log("dataQuiz", dataQuiz);
 
   return (
     <div className="detail-quiz-container">
@@ -50,16 +66,28 @@ const DetailQuiz = (props) => {
           <img />
         </div>
         <div className="q-content">
-          <div className="q-question">Question 1: How are you doing?</div>
-          <div className="answer">
-            <div className="a-child">A: adada</div>
-            <div className="a-child">B: adada</div>
-            <div className="a-child">C: adada</div>
-          </div>
+          <Question
+            data={dataQuiz && dataQuiz.length > 0 ? dataQuiz[index] : []}
+            index={index}
+          />
         </div>
         <div className="footer">
-          <button className="btn btn-primary">prev</button>
-          <button className="btn btn-secondary">next</button>
+          <button
+            className="btn btn-primary"
+            onClick={() => {
+              handlePrev();
+            }}
+          >
+            prev
+          </button>
+          <button
+            className="btn btn-secondary"
+            onClick={() => {
+              handleNext();
+            }}
+          >
+            next
+          </button>
         </div>
       </div>
       <div className="right-content">count down</div>
