@@ -1,6 +1,8 @@
 import { useState } from "react";
 import "./ManageQuiz.scss";
 import Select from "react-select";
+import { toast } from "react-toastify";
+import { postCreateNewQuiz } from "../../../../services/apiService";
 const options = [
   { value: "EASY", label: "EASY" },
   { value: "MEDIUM", label: "MEDIUM" },
@@ -9,10 +11,30 @@ const options = [
 const ManageQuiz = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [type, setType] = useState("EASY");
+  const [type, setType] = useState("");
   const [image, setImage] = useState(null);
 
-  const handleChangeFile = () => {};
+  const handleChangeFile = (event) => {
+    if (event.target && event.target.files && event.target.files[0]) {
+      setImage(event.target.files[0]);
+    }
+  };
+  const handleSubmitQuiz = async () => {
+    //validate
+    if (!name || !description) {
+      toast.error(" check name/description !");
+    }
+    let res = await postCreateNewQuiz(description, name, type?.value, image);
+    console.log("res: ", res);
+    if (res && res.EC === 0) {
+      toast.success(res.EM);
+      setName("");
+      setDescription("");
+      setImage(null);
+    } else {
+      toast.error(res.EM);
+    }
+  };
   return (
     <div className="quiz-container">
       <div className="title">Manage Quizzes</div>
@@ -46,8 +68,8 @@ const ManageQuiz = () => {
           </div>
           <div className="my-3">
             <Select
-              value={type}
-              //   onChange={this.handleChange}
+              defaultValue={type}
+              onChange={setType}
               options={options}
               placeholder="Quiz type...."
             />
@@ -62,8 +84,17 @@ const ManageQuiz = () => {
               }}
             ></input>
           </div>
-          <br />
-          <input type="submit" className="btn btn-primary" value="Submit" />
+          <div className="mt-3">
+            <button
+              className="btn btn-warning"
+              onClick={() => {
+                handleSubmitQuiz();
+              }}
+            >
+              {" "}
+              Save
+            </button>
+          </div>
         </fieldset>
       </div>
       <div className="list-detail">table</div>
