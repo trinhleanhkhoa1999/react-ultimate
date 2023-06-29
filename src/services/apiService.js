@@ -58,6 +58,13 @@ const postCreateNewQuiz = (description, name, difficulty, image) => {
   data.append("quizImage", image);
   return axios.post(`api/v1/quiz`, data);
 };
+const getDataForQuiz = () => {
+  return axios.get(`api/v1/quiz/all`);
+};
+
+const deleteQuiz = (quizId) => {
+  return axios.delete("api/v1/participant", { data: { id: quizId } });
+};
 export {
   postCreateNewUser,
   getAllUsers,
@@ -70,4 +77,6 @@ export {
   getDataQuiz,
   postSubmitQuiz,
   postCreateNewQuiz,
+  getDataForQuiz,
+  deleteQuiz,
 };
